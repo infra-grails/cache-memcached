@@ -7,10 +7,10 @@ import org.springframework.beans.factory.InitializingBean
  */
 class MemcachedService implements InitializingBean {
 
-    private static final String  MEMCACHED_SERVER_HOST = 'localhost'
-    private static final Integer MEMCACHED_SERVER_PORT = 11211
+    public static final String  MEMCACHED_SERVER_HOST = 'localhost'
+    public static final Integer MEMCACHED_SERVER_PORT = 11211
 
-    private static final Integer DEFAULT_EXPIRATION_TIME = 600
+    public static final Integer DEFAULT_EXPIRATION_TIME = 600
 
     private static final Object NULL = "NULL"
 
