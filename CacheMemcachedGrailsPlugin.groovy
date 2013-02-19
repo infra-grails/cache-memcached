@@ -8,13 +8,10 @@ class CacheMemcachedGrailsPlugin {
             "grails-app/views/error.gsp"
     ]
 
-    // TODO Fill in these fields
-    def title = "Cache Memcached Plugin" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
-    def description = '''\
-Brief summary/description of the plugin.
-'''
+    def title       = "Cache Memcached Plugin" // Headline display name of the plugin
+    def author      = "Svyat Podmogayev"
+    def authorEmail = "s.podmogayev@gmail.com"
+    def description = ""
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/cache-memcached"

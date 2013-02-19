@@ -2,6 +2,9 @@ import net.spy.memcached.AddrUtil
 import net.spy.memcached.MemcachedClient
 import org.springframework.beans.factory.InitializingBean
 
+/**
+ * @author: prostohz
+ */
 class MemcachedService implements InitializingBean {
 
     private static final String  MEMCACHED_SERVER_HOST = 'localhost'
@@ -14,7 +17,9 @@ class MemcachedService implements InitializingBean {
     MemcachedClient memcachedClient
 
     def void afterPropertiesSet() {
-        memcachedClient = new MemcachedClient(AddrUtil.getAddresses("${MEMCACHED_SERVER_HOST}:${MEMCACHED_SERVER_PORT}"))
+        memcachedClient = new MemcachedClient(AddrUtil.getAddresses(
+                "${MEMCACHED_SERVER_HOST}:${MEMCACHED_SERVER_PORT}")
+        )
     }
 
     def get(String key) {
