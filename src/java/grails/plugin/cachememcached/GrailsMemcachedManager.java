@@ -16,6 +16,8 @@ public class GrailsMemcachedManager implements CacheManager {
 
     protected final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<String, Cache>();
 
+    public GrailsMemcachedManager() { }
+
     @Override
     public Collection<String> getCacheNames() {
         return Collections.unmodifiableSet(cacheMap.keySet());

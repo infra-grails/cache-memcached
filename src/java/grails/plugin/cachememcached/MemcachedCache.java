@@ -28,9 +28,9 @@ public class MemcachedCache implements Cache {
         this.name = name;
         try {
             memcachedClient = new MemcachedClient(AddrUtil.getAddresses(
-                    MEMCACHED_SERVER_HOST + MEMCACHED_SERVER_PORT));
+                    MEMCACHED_SERVER_HOST + ":" + MEMCACHED_SERVER_PORT));
         } catch (IOException e) {
-            System.out.println("Exception has occured");
+            System.out.println("Exception has occurred with MemcachedClient initialization");
         }
     }
 
@@ -59,21 +59,23 @@ public class MemcachedCache implements Cache {
                     return NULL;
             }
         };
-
         return valueWrapper;
     }
 
     @Override
     public void put(Object o, Object o2) {
-        String key = (String) o;
-        String value = (String) o2;
+        String key = o.toString();
 
-        memcachedClient.set(key,DEFAULT_EXPIRATION_TIME, value);
+        System.out.println("key: " + key);
+        System.out.println("value: " + o2);
+
+        memcachedClient.set(key,DEFAULT_EXPIRATION_TIME, o2);
     }
 
     @Override
     public void evict(Object o) {
-
+        String key =  (String) o;
+        memcachedClient.delete(key);
     }
 
     @Override
