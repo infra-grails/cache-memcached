@@ -4,6 +4,7 @@ import org.springframework.beans.factory.InitializingBean
 
 /**
  * @author: prostohz
+ * @since 19.02.13
  */
 class MemcachedService implements InitializingBean {
 
