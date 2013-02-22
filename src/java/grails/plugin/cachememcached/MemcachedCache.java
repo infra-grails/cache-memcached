@@ -18,7 +18,7 @@ public class MemcachedCache implements Cache {
     private static final String  MEMCACHED_SERVER_HOST = "localhost";
     private static final int MEMCACHED_SERVER_PORT = 11211;
 
-    private static final int DEFAULT_EXPIRATION_TIME = 600;
+    public static int DEFAULT_EXPIRATION_TIME = 3600;
 
     private static final Object  NULL = "NULL";
 

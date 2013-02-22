@@ -10,7 +10,8 @@ import spock.lang.Stepwise;
  * @author : prostohz
  * @since : 2/22/13 2:33 PM
  */
-import spock.lang.Stepwise;
+
+@Stepwise
 public class MemcachedSpec extends Specification {
 
     @Shared
@@ -104,14 +105,14 @@ public class MemcachedSpec extends Specification {
         when:
         MemcachedCache.DEFAULT_EXPIRATION_TIME = 10
         memcachedCache.put(testKey, testValue)
-        sleep(5000)
+        sleep(5 * 1000)
         returnValue = memcachedCache.get(testKey)
 
         then:
         returnValue.get() == testValue
 
         when:
-        sleep(6000)
+        sleep(6 * 1000)
         returnValue = memcachedCache.get(testKey)
 
         then:
