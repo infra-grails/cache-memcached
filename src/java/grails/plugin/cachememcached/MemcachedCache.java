@@ -2,6 +2,7 @@ package grails.plugin.cachememcached;
 
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.MemcachedClient;
+import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.springframework.cache.Cache;
 
 import java.io.IOException;
@@ -12,17 +13,17 @@ import java.io.IOException;
  */
 public class MemcachedCache implements Cache {
 
+    public static final String CACHE_NAME = "memcached";
+
     private static final String  MEMCACHED_SERVER_HOST = "localhost";
     private static final int MEMCACHED_SERVER_PORT = 11211;
 
     private static final int DEFAULT_EXPIRATION_TIME = 600;
 
-    private static final Object NULL = "NULL";
-
-    private String name;
+    private static final Object  NULL = "NULL";
 
     private MemcachedClient memcachedClient;
-
+    private String name;
 
     public MemcachedCache(String name) {
         this.name = name;
@@ -49,26 +50,22 @@ public class MemcachedCache implements Cache {
         String key = (String) o;
 
         final Object value = memcachedClient.get(key);
-
-        ValueWrapper valueWrapper = new ValueWrapper() {
-            @Override
-            public Object get() {
-                if(value != null)
+        if(value != null) {
+            ValueWrapper valueWrapper = new ValueWrapper() {
+                @Override
+                public Object get() {
                     return value;
-                else
-                    return NULL;
-            }
-        };
-        return valueWrapper;
+                }
+            };
+            return valueWrapper;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void put(Object o, Object o2) {
-        String key = o.toString();
-
-        System.out.println("key: " + key);
-        System.out.println("value: " + o2);
-
+        String key = (String) o;
         memcachedClient.set(key,DEFAULT_EXPIRATION_TIME, o2);
     }
 

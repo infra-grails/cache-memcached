@@ -23,6 +23,10 @@ public class GrailsMemcachedManager implements CacheManager {
         return Collections.unmodifiableSet(cacheMap.keySet());
     }
 
+    public Cache getCache() {
+        return getCache(MemcachedCache.CACHE_NAME);
+    }
+
     @Override
     public Cache getCache(String name) {
         Cache cache = cacheMap.get(name);
