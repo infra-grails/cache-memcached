@@ -4,7 +4,7 @@ import grails.plugin.cachememcached.GrailsMemcachedManager
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
 class CacheMemcachedGrailsPlugin {
-    def version = "0.1"
+    def version = "0.1-SNAPSHOT"
     def grailsVersion = "2.2 > *"
     def loadAfter = ['cache']
     def pluginExcludes = [
@@ -22,16 +22,6 @@ class CacheMemcachedGrailsPlugin {
     }
 
     def doWithSpring = {
-        if (!isEnabled(application)) {
-            log.warn 'Memcached Cache plugin is disabled'
-            return
-        }
-
-        def memcachedServer = application.config.memcached.config
-        String memcachedHost = memcachedServer.serverHost
-        String memcachedPort = memcachedServer.serverPort
-        String timeToLive = memcachedServer.timeToLive
-
         grailsCacheManager(GrailsMemcachedManager)
         grailsCacheConfigLoader(MemcachedConfigLoader)
     }
@@ -57,9 +47,5 @@ class CacheMemcachedGrailsPlugin {
 
     def onShutdown = { event ->
         // TODO Implement code that is executed when the application shuts down (optional)
-    }
-
-    private boolean isEnabled(GrailsApplication application) {
-        true
     }
 }
