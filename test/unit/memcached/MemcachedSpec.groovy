@@ -1,7 +1,9 @@
 package memcached
 
+import grails.plugin.cachememcached.GrailsMemcachedManager
 import grails.plugin.cachememcached.MemcachedCache
-import org.springframework.beans.factory.annotation.Autowired
+import grails.plugin.cachememcached.MemcachedConfig
+import org.springframework.cache.Cache
 import spock.lang.Shared;
 import spock.lang.Specification;
 import spock.lang.Stepwise;
@@ -15,14 +17,38 @@ import spock.lang.Stepwise;
 public class MemcachedSpec extends Specification {
 
     @Shared
+    int memcachedTTL = 10
+
+    @Shared
     def returnValue
 
     @Shared
-    MemcachedCache memcachedCache
+    Cache memcachedCache
+
+    @Shared
+    Cache secondMemcachedCache
+
+    @Shared
+    GrailsMemcachedManager grailsMemcachedManager
 
     def setupSpec() {
-        memcachedCache = new MemcachedCache(MemcachedCache.CACHE_NAME)
+        grailsMemcachedManager  = new GrailsMemcachedManager()
+        memcachedCache = grailsMemcachedManager.getCache(MemcachedCache.DEFAULT_CACHE_NAME)
+        ((MemcachedCache)memcachedCache).setTimeToLive(memcachedTTL)
+
         memcachedCache.clear()
+    }
+
+    void "Can create more than one MemcachedCache instance"() {
+        given:
+        int secondMemcachedCacheTTL = 10
+
+        when: "Trying to create second MemcachedCache instance"
+        secondMemcachedCache = grailsMemcachedManager.getCache("secondMemcachedCache")
+        ((MemcachedCache)secondMemcachedCache).setTimeToLive(secondMemcachedCacheTTL)
+
+        then:
+        memcachedCache != secondMemcachedCache
     }
 
     void "Can get cache name"() {
@@ -30,7 +56,7 @@ public class MemcachedSpec extends Specification {
         String name = memcachedCache.getName()
 
         then:
-        name == MemcachedCache.CACHE_NAME
+        name == MemcachedCache.DEFAULT_CACHE_NAME
     }
 
     void "Can put data in memcached"() {
@@ -103,17 +129,16 @@ public class MemcachedSpec extends Specification {
         String testValue = "testValue4"
 
         when:
-        MemcachedCache.DEFAULT_EXPIRATION_TIME = 10
-        memcachedCache.put(testKey, testValue)
+        secondMemcachedCache.put(testKey, testValue)
         sleep(5 * 1000)
-        returnValue = memcachedCache.get(testKey)
+        returnValue = secondMemcachedCache.get(testKey)
 
         then:
         returnValue.get() == testValue
 
         when:
         sleep(6 * 1000)
-        returnValue = memcachedCache.get(testKey)
+        returnValue = secondMemcachedCache.get(testKey)
 
         then:
         returnValue == null

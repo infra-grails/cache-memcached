@@ -24,7 +24,7 @@ public class GrailsMemcachedManager implements CacheManager {
     }
 
     public Cache getCache() {
-        return getCache(MemcachedCache.CACHE_NAME);
+        return getCache(MemcachedCache.DEFAULT_CACHE_NAME);
     }
 
     @Override

@@ -2,7 +2,6 @@ package grails.plugin.cachememcached;
 
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.MemcachedClient;
-import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.springframework.cache.Cache;
 
 import java.io.IOException;
@@ -13,26 +12,31 @@ import java.io.IOException;
  */
 public class MemcachedCache implements Cache {
 
-    public static final String CACHE_NAME = "memcached";
+    public static final String DEFAULT_CACHE_NAME = "memcached";
 
-    private static final String  MEMCACHED_SERVER_HOST = "localhost";
-    private static final int MEMCACHED_SERVER_PORT = 11211;
+    private static final String  memcachedServerHost = "localhost";
+    private static final int     memcachedServerPort = 11211;
 
-    public static int DEFAULT_EXPIRATION_TIME = 3600;
-
-    private static final Object  NULL = "NULL";
-
-    private MemcachedClient memcachedClient;
     private String name;
+    private MemcachedClient memcachedClient;
+
+    private int expirationTime;
+    {
+        expirationTime = 0;
+    }
 
     public MemcachedCache(String name) {
         this.name = name;
         try {
             memcachedClient = new MemcachedClient(AddrUtil.getAddresses(
-                    MEMCACHED_SERVER_HOST + ":" + MEMCACHED_SERVER_PORT));
+                    memcachedServerHost + ":" + memcachedServerPort));
         } catch (IOException e) {
             System.out.println("Exception has occurred with MemcachedClient initialization");
         }
+    }
+
+    public void setTimeToLive(int timeToLive){
+        expirationTime = timeToLive;
     }
 
     @Override
@@ -66,7 +70,7 @@ public class MemcachedCache implements Cache {
     @Override
     public void put(Object o, Object o2) {
         String key = (String) o;
-        memcachedClient.set(key,DEFAULT_EXPIRATION_TIME, o2);
+        memcachedClient.set(key, expirationTime, o2);
     }
 
     @Override
