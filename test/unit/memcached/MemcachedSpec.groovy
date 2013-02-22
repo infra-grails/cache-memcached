@@ -21,6 +21,15 @@ public class MemcachedSpec extends Specification {
 
     def setupSpec() {
         memcachedCache = new MemcachedCache(MemcachedCache.CACHE_NAME)
+        memcachedCache.clear()
+    }
+
+    void "Can get cache name"() {
+        when: "Trying to get name"
+        String name = memcachedCache.getName()
+
+        then:
+        name == MemcachedCache.CACHE_NAME
     }
 
     void "Can put data in memcached"() {
@@ -83,7 +92,7 @@ public class MemcachedSpec extends Specification {
         memcachedCache.clear()
         returnValue = memcachedCache.get(testKey)
 
-        then:
+        then: "There are`t an earlier existing values"
         returnValue == null
     }
 }
