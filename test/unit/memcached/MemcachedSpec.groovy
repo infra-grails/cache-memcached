@@ -34,7 +34,7 @@ public class MemcachedSpec extends Specification {
 
     void "Can put data in memcached"() {
         given:
-        String testKey = "testKey1"
+        String testKey   = "testKey1"
         String testValue = "testValue1"
 
         when:
@@ -61,7 +61,7 @@ public class MemcachedSpec extends Specification {
 
     void "Can evict value"() {
         given:
-        String testKey = "testKey2"
+        String testKey   = "testKey2"
         String testValue = "testValue2"
 
         when: "Tying to put test value associated with test key"
@@ -79,7 +79,7 @@ public class MemcachedSpec extends Specification {
 
     void "Can flush all"() {
         given:
-        String testKey = "testKey3"
+        String testKey   = "testKey3"
         String testValue = "testValue3"
 
         when: "Tying to put test value associated with test key"
@@ -93,6 +93,28 @@ public class MemcachedSpec extends Specification {
         returnValue = memcachedCache.get(testKey)
 
         then: "There are`t an earlier existing values"
+        returnValue == null
+    }
+
+    void "Does delete after ttl will end"() {
+        given:
+        String testKey   = "testKey4"
+        String testValue = "testValue4"
+
+        when:
+        MemcachedCache.DEFAULT_EXPIRATION_TIME = 10
+        memcachedCache.put(testKey, testValue)
+        sleep(5000)
+        returnValue = memcachedCache.get(testKey)
+
+        then:
+        returnValue.get() == testValue
+
+        when:
+        sleep(6000)
+        returnValue = memcachedCache.get(testKey)
+
+        then:
         returnValue == null
     }
 }
