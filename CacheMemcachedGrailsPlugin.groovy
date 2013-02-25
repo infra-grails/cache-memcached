@@ -1,4 +1,4 @@
-
+import grails.plugin.cache.CacheBeanPostProcessor
 import grails.plugin.cachememcached.MemcachedConfigLoader
 import grails.plugin.cachememcached.GrailsMemcachedManager
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -22,6 +22,7 @@ class CacheMemcachedGrailsPlugin {
     }
 
     def doWithSpring = {
+        cacheBeanPostProcessor(CacheBeanPostProcessor)
         grailsCacheManager(GrailsMemcachedManager)
         grailsCacheConfigLoader(MemcachedConfigLoader)
     }

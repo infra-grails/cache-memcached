@@ -14,8 +14,11 @@ public class MemcachedCache implements Cache {
 
     public static final String DEFAULT_CACHE_NAME = "memcached";
 
-    private static final String  memcachedServerHost = "localhost";
-    private static final int     memcachedServerPort = 11211;
+    private static String  memcachedServerHost;
+    public static void setMemcachedServerHost(String host) { memcachedServerHost = host; }
+
+    private static int memcachedServerPort;
+    public static void setMemcachedServerPort(int port) { memcachedServerPort = port; }
 
     private String name;
     private MemcachedClient memcachedClient;
@@ -51,6 +54,7 @@ public class MemcachedCache implements Cache {
 
     @Override
     public ValueWrapper get(Object o) {
+        System.out.println("MemcachedCache:get");
         String key = (String) o;
 
         final Object value = memcachedClient.get(key);
@@ -69,6 +73,7 @@ public class MemcachedCache implements Cache {
 
     @Override
     public void put(Object o, Object o2) {
+        System.out.println("MemcachedCache:put");
         String key = (String) o;
         memcachedClient.set(key, expirationTime, o2);
     }

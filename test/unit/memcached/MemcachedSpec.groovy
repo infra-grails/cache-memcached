@@ -2,7 +2,7 @@ package memcached
 
 import grails.plugin.cachememcached.GrailsMemcachedManager
 import grails.plugin.cachememcached.MemcachedCache
-import grails.plugin.cachememcached.MemcachedConfig
+
 import org.springframework.cache.Cache
 import spock.lang.Shared;
 import spock.lang.Specification;
