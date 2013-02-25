@@ -33,6 +33,7 @@ public class MemcachedSpec extends Specification {
 
     def setupSpec() {
         grailsMemcachedManager  = new GrailsMemcachedManager()
+
         memcachedCache = grailsMemcachedManager.getCache(MemcachedCache.DEFAULT_CACHE_NAME)
         ((MemcachedCache)memcachedCache).setTimeToLive(memcachedTTL)
 

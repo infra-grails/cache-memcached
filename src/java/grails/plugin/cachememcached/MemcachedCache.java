@@ -14,10 +14,10 @@ public class MemcachedCache implements Cache {
 
     public static final String DEFAULT_CACHE_NAME = "memcached";
 
-    private static String  memcachedServerHost;
+    private static String  memcachedServerHost = "localhost";
     public static void setMemcachedServerHost(String host) { memcachedServerHost = host; }
 
-    private static int memcachedServerPort;
+    private static int memcachedServerPort = 11211;
     public static void setMemcachedServerPort(int port) { memcachedServerPort = port; }
 
     private String name;
