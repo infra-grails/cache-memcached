@@ -1,21 +1,21 @@
-import grails.plugin.cache.CacheBeanPostProcessor
-import grails.plugin.cache.GrailsAnnotationCacheOperationSource
+import grails.plugin.cachememcached.CacheBeanPostProcessor
 import grails.plugin.cachememcached.MemcachedConfigLoader
 import grails.plugin.cachememcached.GrailsMemcachedManager
-import org.codehaus.groovy.grails.commons.GrailsApplication
 
 class CacheMemcachedGrailsPlugin {
     def version = "0.1-SNAPSHOT"
     def grailsVersion = "2.2 > *"
     def loadAfter = ['cache']
     def pluginExcludes = [
-            "grails-app/views/error.gsp"
+            "grails-app/views/error.gsp",
+            "grails-app/plugins/spock-0.7"
     ]
 
     def title       = "Cache Memcached Plugin"
     def author      = "Svyat Podmogayev"
     def authorEmail = "s.podmogayev@gmail.com"
     def description = "The plugin allows to use the memcached util for caching of data"
+
     def documentation = "http://grails.org/plugin/cache-memcached"
 
     def doWithWebDescriptor = { xml ->

@@ -23,6 +23,9 @@ public class MemcachedCache implements Cache {
     private String name;
     private MemcachedClient memcachedClient;
 
+    private MemcachedStatistics statistics;
+
+
     private int expirationTime;
     {
         expirationTime = 0;
@@ -33,6 +36,7 @@ public class MemcachedCache implements Cache {
         try {
             memcachedClient = new MemcachedClient(AddrUtil.getAddresses(
                     memcachedServerHost + ":" + memcachedServerPort));
+            statistics = new MemcachedStatistics();
         } catch (IOException e) {
             System.out.println("Exception has occurred with MemcachedClient initialization");
         }
@@ -54,8 +58,10 @@ public class MemcachedCache implements Cache {
 
     @Override
     public ValueWrapper get(Object o) {
-        System.out.println("MemcachedCache:get");
+        statistics.incCmdGet();
+
         String key = (String) o;
+        System.out.println("get:key: " + key);
 
         final Object value = memcachedClient.get(key);
         if(value != null) {
@@ -73,13 +79,17 @@ public class MemcachedCache implements Cache {
 
     @Override
     public void put(Object o, Object o2) {
-        System.out.println("MemcachedCache:put");
+        statistics.incCmdSet();
+
         String key = (String) o;
+        System.out.println("put:key: " + key);
         memcachedClient.set(key, expirationTime, o2);
     }
 
     @Override
     public void evict(Object o) {
+        statistics.incCmdEvct();
+
         String key =  (String) o;
         memcachedClient.delete(key);
     }
@@ -87,5 +97,9 @@ public class MemcachedCache implements Cache {
     @Override
     public void clear() {
         memcachedClient.flush();
+    }
+
+    public MemcachedStatistics getStatistics() {
+        return statistics;
     }
 }
