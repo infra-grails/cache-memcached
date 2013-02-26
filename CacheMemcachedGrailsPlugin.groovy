@@ -6,10 +6,8 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 class CacheMemcachedGrailsPlugin {
     def version = "0.1-SNAPSHOT"
     def grailsVersion = "2.2 > *"
-    def loadAfter = ['cache']
     def pluginExcludes = [
-            "grails-app/views/error.gsp",
-            "grails-app/plugins/spock-0.7"
+            "grails-app/views/error.gsp"
     ]
 
     def title       = "Cache Memcached Plugin"
@@ -17,7 +15,7 @@ class CacheMemcachedGrailsPlugin {
     def authorEmail = "s.podmogayev@gmail.com"
     def description = "The plugin allows to use the memcached util for caching of data"
 
-    def documentation = "http://grails.org/plugin/cache-memcached"
+    def documentation = "https://github.com/alari/cache-memcached"
 
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before
