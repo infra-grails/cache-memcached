@@ -12,8 +12,7 @@ class MemcachedConfigLoader extends ConfigLoader  {
     void reload(List<ConfigObject> configs, ApplicationContext ctx) {
         GrailsMemcachedManager cacheManager = (GrailsMemcachedManager) ctx.grailsCacheManager
 
-        //TODO DELETE after testing
-        println "MemcachedConfigLoader"
+        println "MemcachedConfigLoader is running"
 
         if(configs.size() != 0) {
             for(ConfigObject co in configs) {
@@ -32,6 +31,9 @@ class MemcachedConfigLoader extends ConfigLoader  {
                 }
             }
         }
+
+        println "MemcachedCache.memcachedServerHost: ${MemcachedCache.memcachedServerHost}"
+        println "MemcachedCache.memcachedServerPort: ${MemcachedCache.memcachedServerPort}"
     }
 
     List<ConfigObject> loadOrderedConfigs(GrailsApplication application) {
@@ -43,15 +45,20 @@ class MemcachedConfigLoader extends ConfigLoader  {
 
             if(cacheSettings) {
                 def memcachedHost = cacheSettings.serverHost
-                if(memcachedHost)
-                    MemcachedCache.setMemcachedServerHost(memcachedHost)
+                if(memcachedHost) { MemcachedCache.setMemcachedServerHost(memcachedHost) }
+                else { println "3) serverHost-property has missed" }
+
                 def memcachedPort = cacheSettings.serverPort
-                if(memcachedPort)
-                    MemcachedCache.setMemcachedServerPort(memcachedPort)
+                if(memcachedPort) { MemcachedCache.setMemcachedServerPort(memcachedPort) }
+                else { println "3) serverPort-property has missed" }
+            } else {
+                println "2) settings-block has missed"
             }
 
             ConfigObject cachesList = cacheConfig.caches
             configs.addAll(cachesList)
+        } else {
+            println "1) memcached-block has missed"
         }
         configs
     }
