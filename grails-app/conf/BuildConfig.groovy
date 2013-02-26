@@ -17,14 +17,16 @@ grails.project.dependency.resolution = {
         // excludes 'ehcache'
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
-    legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
+    legacyResolve true // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
     repositories {
         grailsCentral()
         mavenRepo "http://mvn.quonb.org/repo"
         grailsRepo "http://mvn.quonb.org/repo", "quonb"
     }
     dependencies {
-        test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
+        test("org.spockframework:spock-grails-support:0.7-groovy-2.0") {
+            export = false
+        }
     }
 
     plugins {
@@ -38,6 +40,7 @@ grails.project.dependency.resolution = {
 
         test(":spock:0.7") {
             exclude "spock-grails-support"
+            export = false
         }
     }
 }
