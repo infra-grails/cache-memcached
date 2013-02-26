@@ -1,21 +1,25 @@
-Auhor: Svyat Podmogayev(s.podmogayev@gmail.com) with the support of Dmitry Kurinsky.
+Auhor: Svyat Podmogayev (s.podmogayev@gmail.com) with the support of Dmitry Kurinskiy.
 
-The plugin depends of: *cache:1.0.1* plugin
+The plugin depends on *cache:1.0.1* plugin and implements an adapter to `memcached` cache for Grails caching infrastructure.
 
-The plugin provides the ability to use memcached utility. 
-All plugin's congigurations concluded in block with name `memcached`. 
-For connection to memcached server you must to indicate *host* with string value and *port* with integer value in sub-block `settings`. 
-Caches configurations indicates as list of blocks, which name is cache's name, that enclosed in `caches`-block. 
-In each cache-block you must indicate `timeToLive` param, that images a time after end which an object will be deleted from cache.
+Usage
+==============
 
+Take a look on a base `cache` plugin to find out its usage. `cache-memcached` plugin only adapts memcached to back the cache.
+
+Configuration
+==============
 
 ```groovy
 memcached {
+    // Memcached server properties -- optional
     settings {
         serverHost = "localhost"
         serverPort = 11211
     }
 
+    // The only property supported is timeToLive (seconds)
+    // Make individual TTL settings for different caches.
     caches {
         userProfiles {
             timeToLive = 7200
