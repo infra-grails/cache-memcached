@@ -12,18 +12,20 @@ class MemcachedConfigLoader extends ConfigLoader  {
     void reload(List<ConfigObject> configs, ApplicationContext ctx) {
         GrailsMemcachedManager cacheManager = (GrailsMemcachedManager) ctx.grailsCacheManager
 
-        for(ConfigObject co in configs) {
-            Set keySet = co.keySet()
-            for(String key in keySet) {
-                Map value = (Map) co.get(key)
-                String timeToLiveStr = value.timeToLive
+        if(configs.size() != 0) {
+            for(ConfigObject co in configs) {
+                Set keySet = co.keySet()
+                for(String key in keySet) {
+                    Map value = (Map) co.get(key)
+                    String timeToLiveStr = value.timeToLive
 
-                if (!timeToLiveStr)
-                    throw new Exception()
-                else {
-                    int timeToLive = Integer.parseInt(timeToLiveStr)
-                    Cache memcachedCache = cacheManager.getCache(key);
-                    ((MemcachedCache)memcachedCache).setTimeToLive(timeToLive)
+                    if (!timeToLiveStr)
+                        throw new Exception()
+                    else {
+                        int timeToLive = Integer.parseInt(timeToLiveStr)
+                        Cache memcachedCache = cacheManager.getCache(key);
+                        ((MemcachedCache)memcachedCache).setTimeToLive(timeToLive)
+                    }
                 }
             }
         }
@@ -33,16 +35,17 @@ class MemcachedConfigLoader extends ConfigLoader  {
         List<ConfigObject> configs = []
 
         def cacheConfig = application.config.memcached
-        def cacheSettings = cacheConfig.settings
+        if(cacheConfig) {
+            def cacheSettings = cacheConfig.settings
 
-        def memcachedHost = cacheSettings.serverHost
-        MemcachedCache.setMemcachedServerHost(memcachedHost)
-        def memcachedPort = cacheSettings.serverPort
-        MemcachedCache.setMemcachedServerPort(memcachedPort)
+            def memcachedHost = cacheSettings.serverHost
+            MemcachedCache.setMemcachedServerHost(memcachedHost)
+            def memcachedPort = cacheSettings.serverPort
+            MemcachedCache.setMemcachedServerPort(memcachedPort)
 
-        ConfigObject cachesList = cacheConfig.caches
-        configs.addAll(cachesList)
-
+            ConfigObject cachesList = cacheConfig.caches
+            configs.addAll(cachesList)
+        }
         configs
     }
 
