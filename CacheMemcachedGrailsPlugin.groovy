@@ -1,6 +1,7 @@
 import grails.plugin.cachememcached.CacheBeanPostProcessor
 import grails.plugin.cachememcached.MemcachedConfigLoader
 import grails.plugin.cachememcached.GrailsMemcachedManager
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 class CacheMemcachedGrailsPlugin {
     def version = "0.1-SNAPSHOT"
@@ -23,6 +24,10 @@ class CacheMemcachedGrailsPlugin {
     }
 
     def doWithSpring = {
+        if (!isEnabled(application)) {
+            return
+        }
+
         cacheBeanPostProcessor(CacheBeanPostProcessor)
         grailsCacheManager(GrailsMemcachedManager)
         grailsCacheConfigLoader(MemcachedConfigLoader)
@@ -49,5 +54,9 @@ class CacheMemcachedGrailsPlugin {
 
     def onShutdown = { event ->
         // TODO Implement code that is executed when the application shuts down (optional)
+    }
+
+    private boolean isEnabled(GrailsApplication application) {
+        true
     }
 }

@@ -60,7 +60,8 @@ public class MemcachedCache implements Cache {
     public ValueWrapper get(Object o) {
         statistics.incCmdGet();
 
-        String key = (String) o;
+        String key = o.toString();
+        System.out.println("Getkey:" + key);
         final Object value = memcachedClient.get(key);
         if(value != null) {
             ValueWrapper valueWrapper = new ValueWrapper() {
@@ -79,7 +80,8 @@ public class MemcachedCache implements Cache {
     public void put(Object o, Object o2) {
         statistics.incCmdSet();
 
-        String key = (String) o;
+        String key = o.toString();
+        System.out.println("Putkey:" + key);
         memcachedClient.set(key, expirationTime, o2);
     }
 

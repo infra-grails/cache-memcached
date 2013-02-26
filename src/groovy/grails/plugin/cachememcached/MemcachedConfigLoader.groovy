@@ -12,6 +12,9 @@ class MemcachedConfigLoader extends ConfigLoader  {
     void reload(List<ConfigObject> configs, ApplicationContext ctx) {
         GrailsMemcachedManager cacheManager = (GrailsMemcachedManager) ctx.grailsCacheManager
 
+        //TODO DELETE after testing
+        println "MemcachedConfigLoader"
+
         if(configs.size() != 0) {
             for(ConfigObject co in configs) {
                 Set keySet = co.keySet()
@@ -38,10 +41,14 @@ class MemcachedConfigLoader extends ConfigLoader  {
         if(cacheConfig) {
             def cacheSettings = cacheConfig.settings
 
-            def memcachedHost = cacheSettings.serverHost
-            MemcachedCache.setMemcachedServerHost(memcachedHost)
-            def memcachedPort = cacheSettings.serverPort
-            MemcachedCache.setMemcachedServerPort(memcachedPort)
+            if(cacheSettings) {
+                def memcachedHost = cacheSettings.serverHost
+                if(memcachedHost)
+                    MemcachedCache.setMemcachedServerHost(memcachedHost)
+                def memcachedPort = cacheSettings.serverPort
+                if(memcachedPort)
+                    MemcachedCache.setMemcachedServerPort(memcachedPort)
+            }
 
             ConfigObject cachesList = cacheConfig.caches
             configs.addAll(cachesList)
