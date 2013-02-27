@@ -1,6 +1,4 @@
-grails.project.class.dir = "target/classes"
-grails.project.test.class.dir = "target/test-classes"
-grails.project.test.reports.dir = "target/test-reports"
+grails.project.work.dir = 'target'
 
 grails.project.repos.default = "quonb-snapshot"
 
@@ -11,28 +9,29 @@ grails.project.dependency.distribution = {
 }
 
 grails.project.dependency.resolution = {
-    // inherit Grails' default dependencies
-    inherits("global") {
-        // uncomment to disable ehcache
-        // excludes 'ehcache'
-    }
-    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
-    legacyResolve true // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
+    inherits 'global'
+    log 'warn'
+    legacyResolve true
+
     repositories {
         grailsCentral()
+        mavenRepo "http://files.couchbase.com/maven2"
+        mavenLocal()
+        mavenCentral()
         mavenRepo "http://mvn.quonb.org/repo"
         grailsRepo "http://mvn.quonb.org/repo", "quonb"
     }
+
     dependencies {
+        compile 'spy:spymemcached:2.8.11'
+
         test("org.spockframework:spock-grails-support:0.7-groovy-2.0") {
             export = false
         }
     }
 
     plugins {
-        compile(":tomcat:$grailsVersion",
-              ":release:2.2.0",
-              ":rest-client-builder:1.0.3") {
+        compile(":release:2.2.0", ":rest-client-builder:1.0.3") {
             export = false
         }
 
