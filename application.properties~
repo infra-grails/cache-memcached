@@ -1,0 +1,4 @@
+#Grails Metadata file
+#Tue Feb 26 18:51:56 MSK 2013
+app.grails.version=2.2.0
+app.name=cache-memcached2

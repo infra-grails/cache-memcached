@@ -1,0 +1,12 @@
+target
+target-eclipse
+*.iml
+*.idea
+.idea
+.idea/
+out/
+.classpath
+.project
+.settings
+web-app/
+plugins/
