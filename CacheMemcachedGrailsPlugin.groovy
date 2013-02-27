@@ -8,6 +8,8 @@ class CacheMemcachedGrailsPlugin {
     def version = "0.1-SNAPSHOT"
     def grailsVersion = "2.2 > *"
 
+    def loadAfter = ['cache']
+
     def title       = "Cache Memcached Plugin"
     def author      = "Svyat Podmogayev"
     def authorEmail = "s.podmogayev@gmail.com"
@@ -19,6 +21,7 @@ class CacheMemcachedGrailsPlugin {
         if (!isEnabled(application)) {
             return
         }
+        println "CacheMemcachedGrailsPlugin: doWithSpring is invoking"
 
         cacheBeanPostProcessor(CacheBeanPostProcessor)
         grailsCacheManager(GrailsMemcachedManager)
