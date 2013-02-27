@@ -4,17 +4,16 @@ import grails.plugin.cachememcached.GrailsMemcachedManager
 import grails.plugin.cachememcached.MemcachedCache
 
 import org.springframework.cache.Cache
-import spock.lang.Shared;
-import spock.lang.Specification;
-import spock.lang.Stepwise;
+import spock.lang.Shared
+import spock.lang.Specification
+import spock.lang.Stepwise
 
 /**
  * @author : prostohz
  * @since : 2/22/13 2:33 PM
  */
-
 @Stepwise
-public class MemcachedSpec extends Specification {
+class MemcachedSpec extends Specification {
 
     @Shared
     int memcachedTTL = 10

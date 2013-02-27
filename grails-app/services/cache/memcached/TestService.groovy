@@ -7,9 +7,7 @@ class TestService {
 
     @Cacheable(value = "memcached", key="#title")
     def createDomain(String title) {
-        TestDomain testDomain = new TestDomain()
-        testDomain.title = title
-        testDomain.save()
+        new TestDomain(title: title).save()
     }
 
     @CacheEvict(value = "memcached", key="#user.id.toString()")
