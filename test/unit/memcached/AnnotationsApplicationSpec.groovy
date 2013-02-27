@@ -1,9 +1,10 @@
 package memcached
 
+import cache.memcached.TestService
 import grails.plugin.cachememcached.GrailsMemcachedManager
 import grails.plugin.cachememcached.MemcachedCache
 import grails.plugin.cachememcached.MemcachedStatistics
-
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.Cache
 
 import spock.lang.Ignore
@@ -16,11 +17,12 @@ import spock.lang.Stepwise
  * Date: 2/25/13 5:19 PM
  */
 
-@Ignore
 @Stepwise
 class AnnotationsApplicationSpec extends Specification {
 
-    def testService
+    @Autowired
+    TestService testService
+
     @Shared
     Cache memcachedCache
 
@@ -40,24 +42,11 @@ class AnnotationsApplicationSpec extends Specification {
         int cmdSet = statistics.getCmdSet()
 
         when:
-        testService.createDomain()
+        testService.getMessage()
 
         then:
         noExceptionThrown()
         cmdSet + 1 == statistics.getCmdGet()
 
-    }
-
-    void "Does cacheEvict-annotation applies with serivce method"() {
-        given:
-        Long testDomainId = 1
-        int cmdEvct = statistics.getCmdEvct()
-
-        when:
-        testService.deleteDomain(testDomainId)
-
-        then:
-        noExceptionThrown()
-        cmdEvct + 1 == statistics.getCmdEvct()
     }
 }

@@ -7,11 +7,11 @@ class TestController {
 
     @Cacheable(value = "memcached", key="#title")
     def createDomain(String title) {
-        new TestDomain(title: title).save()
+
     }
 
     @CacheEvict(value = "memcached", key="#user.id.toString()")
     def deleteDomain(Long id) {
-        TestDomain.findById(id).delete()
+
     }
 }

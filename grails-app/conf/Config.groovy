@@ -4,3 +4,12 @@ log4j = {
          'org.hibernate',
          'net.sf.ehcache.hibernate'
 }
+
+memcached {
+    caches {
+        message {
+            timeToLive = 0
+        }
+    }
+
+}

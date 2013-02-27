@@ -21,7 +21,6 @@ class CacheMemcachedGrailsPlugin {
         if (!isEnabled(application)) {
             return
         }
-        println "CacheMemcachedGrailsPlugin: doWithSpring is invoking"
 
         cacheBeanPostProcessor(CacheBeanPostProcessor)
         grailsCacheManager(GrailsMemcachedManager)
