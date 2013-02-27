@@ -3,8 +3,9 @@ package memcached
 import grails.plugin.cachememcached.GrailsMemcachedManager
 import grails.plugin.cachememcached.MemcachedCache
 import grails.plugin.cachememcached.MemcachedStatistics
-import org.springframework.beans.factory.annotation.Autowired
+
 import org.springframework.cache.Cache
+
 import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
@@ -21,16 +22,16 @@ class AnnotationsApplicationSpec extends Specification {
 
     def testService
     @Shared
-    Cache memcahedCache
+    Cache memcachedCache
 
     @Shared
     MemcachedStatistics statistics
 
     def setupSpec() {
         GrailsMemcachedManager grailsMemcachedManager  = new GrailsMemcachedManager()
-        memcahedCache = grailsMemcachedManager.getCache()
+        memcachedCache = grailsMemcachedManager.getCache()
 
-        statistics = ((MemcachedCache)memcahedCache).getStatistics()
+        statistics = ((MemcachedCache)memcachedCache).getStatistics()
     }
 
     void "Does cacheable-annotation applies with sevice method"() {

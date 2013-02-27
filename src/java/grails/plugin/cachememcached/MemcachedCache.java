@@ -1,10 +1,11 @@
 package grails.plugin.cachememcached;
 
+import java.io.IOException;
+
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.MemcachedClient;
-import org.springframework.cache.Cache;
 
-import java.io.IOException;
+import org.springframework.cache.Cache;
 
 /**
  * @author : prostohz
@@ -25,11 +26,7 @@ public class MemcachedCache implements Cache {
 
     private MemcachedStatistics statistics;
 
-
-    private int expirationTime;
-    {
-        expirationTime = 0;
-    }
+    private int expirationTime = 0;
 
     public MemcachedCache(String name) {
         this.name = name;
@@ -46,17 +43,14 @@ public class MemcachedCache implements Cache {
         expirationTime = timeToLive;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public Object getNativeCache() {
         return memcachedClient;
     }
 
-    @Override
     public ValueWrapper get(Object o) {
         statistics.incCmdGet();
 
@@ -65,7 +59,6 @@ public class MemcachedCache implements Cache {
         final Object value = memcachedClient.get(key);
         if(value != null) {
             ValueWrapper valueWrapper = new ValueWrapper() {
-                @Override
                 public Object get() {
                     return value;
                 }
@@ -76,7 +69,6 @@ public class MemcachedCache implements Cache {
         }
     }
 
-    @Override
     public void put(Object o, Object o2) {
         statistics.incCmdSet();
 
@@ -85,7 +77,6 @@ public class MemcachedCache implements Cache {
         memcachedClient.set(key, expirationTime, o2);
     }
 
-    @Override
     public void evict(Object o) {
         statistics.incCmdEvct();
 
@@ -93,7 +84,6 @@ public class MemcachedCache implements Cache {
         memcachedClient.delete(key);
     }
 
-    @Override
     public void clear() {
         memcachedClient.flush();
     }

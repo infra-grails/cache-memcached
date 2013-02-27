@@ -10,25 +10,23 @@ import org.springframework.context.ApplicationContext
 class MemcachedConfigLoader extends ConfigLoader  {
 
     void reload(List<ConfigObject> configs, ApplicationContext ctx) {
-        GrailsMemcachedManager cacheManager = (GrailsMemcachedManager) ctx.grailsCacheManager
+        GrailsMemcachedManager cacheManager = ctx.grailsCacheManager
 
         println "MemcachedConfigLoader is running"
 
-        if(configs.size() != 0) {
-            for(ConfigObject co in configs) {
-                Set keySet = co.keySet()
-                for(String key in keySet) {
-                    Map value = (Map) co.get(key)
-                    String timeToLiveStr = value.timeToLive
+        for(ConfigObject co in configs) {
+            Set keySet = co.keySet()
+            for(String key in keySet) {
+                Map value = co.get(key)
+                String timeToLiveStr = value.timeToLive
 
-                    if (!timeToLiveStr)
-                        throw new Exception()
-                    else {
-                        int timeToLive = Integer.parseInt(timeToLiveStr)
-                        Cache memcachedCache = cacheManager.getCache(key);
-                        ((MemcachedCache)memcachedCache).setTimeToLive(timeToLive)
-                    }
+                if (!timeToLiveStr) {
+                    throw new Exception()
                 }
+
+                int timeToLive = Integer.parseInt(timeToLiveStr)
+                Cache memcachedCache = cacheManager.getCache(key)
+                ((MemcachedCache)memcachedCache).setTimeToLive(timeToLive)
             }
         }
 
@@ -69,4 +67,3 @@ class MemcachedConfigLoader extends ConfigLoader  {
         }
     }
 }
-
