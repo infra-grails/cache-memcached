@@ -15,11 +15,16 @@ grails.project.dependency.resolution = {
 
     repositories {
         grailsCentral()
+        mavenRepo "http://files.couchbase.com/maven2"
+        mavenLocal()
+        mavenCentral()
         mavenRepo "http://mvn.quonb.org/repo"
         grailsRepo "http://mvn.quonb.org/repo", "quonb"
     }
 
     dependencies {
+        compile 'spy:spymemcached:2.8.11'
+
         test("org.spockframework:spock-grails-support:0.7-groovy-2.0") {
             export = false
         }
