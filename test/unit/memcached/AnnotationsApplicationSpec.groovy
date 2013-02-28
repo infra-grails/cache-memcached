@@ -17,6 +17,7 @@ import spock.lang.Stepwise
  * Date: 2/25/13 5:19 PM
  */
 
+@Ignore
 @Stepwise
 class AnnotationsApplicationSpec extends Specification {
 
