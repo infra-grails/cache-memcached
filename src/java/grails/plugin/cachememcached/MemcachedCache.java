@@ -78,7 +78,7 @@ public class MemcachedCache implements Cache {
     public void evict(Object o) {
         statistics.incCmdEvct();
 
-        String key =  (String) o;
+        String key = o.toString();
         memcachedClient.delete(key);
     }
 
