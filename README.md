@@ -12,6 +12,9 @@ Configuration
 
 ```groovy
 memcached {
+    // If you need to switch off the plugin -- optional
+    enabled = false
+
     // Memcached server properties -- optional
     settings {
         serverHost = "localhost"
