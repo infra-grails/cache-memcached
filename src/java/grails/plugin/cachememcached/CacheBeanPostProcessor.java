@@ -1,6 +1,7 @@
 package grails.plugin.cachememcached;
 
 import grails.plugin.cache.GrailsAnnotationCacheOperationSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.MutablePropertyValues;
@@ -12,8 +13,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.cache.annotation.AnnotationCacheOperationSource;
 
 /**
- * @author : prostohz
- * @since : 2/25/13 6:11 PM
+ * @author Svyat Podmogayev
+ * @since 2/25/13 6:11 PM
  */
 public class CacheBeanPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
@@ -28,11 +29,8 @@ public class CacheBeanPostProcessor implements BeanDefinitionRegistryPostProcess
             return;
         }
 
-        // change the class to the plugin's subclass
-        // change the class to the plugin's subclass
         beanDef.setBeanClass(GrailsAnnotationCacheOperationSource.class);
 
-        // wire in the dependency for the grailsApplication
         MutablePropertyValues props = beanDef.getPropertyValues();
         if (props == null) {
             props = new MutablePropertyValues();
@@ -65,7 +63,6 @@ public class CacheBeanPostProcessor implements BeanDefinitionRegistryPostProcess
         }
 
         if (beanDef != null) {
-            // make it easier to work with
             if (!"cacheOperationSource".equals(beanName)) {
                 registry.registerAlias(beanName, "cacheOperationSource");
             }

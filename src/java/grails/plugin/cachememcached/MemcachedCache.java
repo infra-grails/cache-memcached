@@ -8,35 +8,43 @@ import net.spy.memcached.MemcachedClient;
 import org.springframework.cache.Cache;
 
 /**
- * @author : prostohz
- * @since : 2/21/13 1:19 PM
+ * @author Svyat Podmogayev
+ * @since 2/21/13 1:19 PM
  */
 public class MemcachedCache implements Cache {
 
+    public static boolean DEBUG = true;
     public static final String DEFAULT_CACHE_NAME = "memcached";
 
     private static String  memcachedServerHost = "localhost";
-    public static void setMemcachedServerHost(String host) { memcachedServerHost = host; }
+
+    public static void setMemcachedServerHost(String host) {
+        memcachedServerHost = host;
+    }
 
     private static int memcachedServerPort = 11211;
-    public static void setMemcachedServerPort(int port) { memcachedServerPort = port; }
 
-    private String name;
+    public static void setMemcachedServerPort(int port) {
+        memcachedServerPort = port;
+    }
+
+
     private MemcachedClient memcachedClient;
-
+    private String name;
+    private int expirationTime = 0;
     private MemcachedStatistics statistics;
 
-    private int expirationTime = 0;
+
 
     public MemcachedCache(String name) {
         this.name = name;
         try {
             memcachedClient = new MemcachedClient(AddrUtil.getAddresses(
                     memcachedServerHost + ":" + memcachedServerPort));
-            statistics = new MemcachedStatistics();
         } catch (IOException e) {
-            System.out.println("Exception has occurred with MemcachedClient initialization");
+            System.out.println("Error! Exception has occurred with MemcachedClient initialization");
         }
+        statistics = new MemcachedStatistics();
     }
 
     public void setTimeToLive(int timeToLive){
@@ -55,6 +63,9 @@ public class MemcachedCache implements Cache {
         statistics.incCmdGet();
 
         String key = o.toString();
+
+        if(DEBUG) System.out.println("get:key: " + key);
+
         final Object value = memcachedClient.get(key);
         if(value != null) {
             ValueWrapper valueWrapper = new ValueWrapper() {
@@ -72,6 +83,9 @@ public class MemcachedCache implements Cache {
         statistics.incCmdSet();
 
         String key = o.toString();
+
+        if(DEBUG) System.out.println("get:key: " + key);
+
         memcachedClient.set(key, expirationTime, o2);
     }
 
@@ -79,6 +93,9 @@ public class MemcachedCache implements Cache {
         statistics.incCmdEvct();
 
         String key = o.toString();
+
+        if(DEBUG) System.out.println("evict:key: " + key);
+
         memcachedClient.delete(key);
     }
 

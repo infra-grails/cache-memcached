@@ -9,7 +9,7 @@ import spock.lang.Specification
 import spock.lang.Stepwise
 
 /**
- * @author : prostohz
+ * @author :
  * @since : 2/22/13 2:33 PM
  */
 @Stepwise

@@ -9,8 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author : prostohz
- * @since : 2/21/13 1:21 PM
+ * @author Svyat Podmogayev
+ * @since 2/21/13 1:21 PM
  */
 public class GrailsMemcachedManager implements CacheManager {
 

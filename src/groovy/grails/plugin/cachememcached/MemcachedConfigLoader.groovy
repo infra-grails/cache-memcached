@@ -1,11 +1,13 @@
 package grails.plugin.cachememcached
 
 import grails.plugin.cache.ConfigLoader
+import grails.plugin.cachememcached.exceptions.IllegalConfigFormatException
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.cache.Cache
 import org.springframework.context.ApplicationContext
+
 /**
- * @author: prostohz
+ * @author Svyat Podmogayev
  */
 class MemcachedConfigLoader extends ConfigLoader  {
 
@@ -15,11 +17,11 @@ class MemcachedConfigLoader extends ConfigLoader  {
         for(ConfigObject co in configs) {
             Set keySet = co.keySet()
             for(String key in keySet) {
-                Map value = co.get(key)
+                Map value = (Map) co.get(key)
                 String timeToLiveStr = value.timeToLive
 
                 if (!timeToLiveStr) {
-                    throw new Exception()
+                    throw new IllegalConfigFormatException("Error! timeToLive-property is has`t set!")
                 }
 
                 int timeToLive = Integer.parseInt(timeToLiveStr)
@@ -27,9 +29,6 @@ class MemcachedConfigLoader extends ConfigLoader  {
                 ((MemcachedCache)memcachedCache).setTimeToLive(timeToLive)
             }
         }
-
-        println "Memcached host: ${MemcachedCache.memcachedServerHost}"
-        println "Memcached port: ${MemcachedCache.memcachedServerPort}"
     }
 
     List<ConfigObject> loadOrderedConfigs(GrailsApplication application) {

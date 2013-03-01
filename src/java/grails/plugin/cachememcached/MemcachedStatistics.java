@@ -1,8 +1,8 @@
 package grails.plugin.cachememcached;
 
 /**
- * @author : prostohz
- * @since : 2/25/13 5:23 PM
+ * @author Svyat Podmogayev
+ * @since 2/25/13 5:23 PM
  */
 public class MemcachedStatistics {
     private int cmdGet;
