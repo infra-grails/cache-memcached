@@ -13,7 +13,7 @@ import org.springframework.cache.Cache;
  */
 public class MemcachedCache implements Cache {
 
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static final String DEFAULT_CACHE_NAME = "memcached";
 
     private static String  memcachedServerHost = "localhost";
