@@ -43,6 +43,7 @@ class CacheMemcachedGrailsPlugin {
         def memcachedConfig = application.config.memcached
         if (memcachedConfig) {
             def enabled = memcachedConfig.enabled
+            println "enabled: ${enabled}"
             if (enabled != [:])
                 return enabled
         }
